@@ -87,17 +87,27 @@
       font-weight: bold;
     }
 
+    .inline {
+      display: inline;
+    }
+
   </style>
 </head>
 <body>
-  <nav>
-    <div class="nav-wrapper">
-      <a href="#" class="brand-logo">Five Thirty Scraper</a>
-      <ul id="nav-mobile" class="right">
-        <li><a id="scrape" href="#">Scrape!</a></li>
-      </ul>
-    </div>
-  </nav>
+  <div class="navbar-fixed">
+    <nav>
+      <div class="nav-wrapper">
+        <a href="#" class="brand-logo">
+          <h3 class="inline hide-on-med-and-down">SCR</h3>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/FiveThirtyEight_fox_head_logo.svg/2000px-FiveThirtyEight_fox_head_logo.svg.png" style="height: 55px; transform: rotate(180deg); display: inline;" class="responsive-img"/>
+          <h3 class="inline hide-on-med-and-down">PE</h3>
+        </a>
+        <ul id="nav-mobile" class="right">
+          <li><a id="scrape" href="#">Scrape!</a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
   {{{ body }}}
   <script
   src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
