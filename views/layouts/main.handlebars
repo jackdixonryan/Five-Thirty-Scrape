@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>FiveThirtyScraped</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+  <style> 
+    .num {
+      line-height: 1;
+      margin: 0px;
+      padding-left: 60px;
+    }
+
+    .five {
+      color: white;
+      background-color: black
+    }
+
+    .three {
+      color: black;
+      background-color: #ec6f3c;
+    }
+
+    .eight {
+      color: #ec6f3c;
+      background-color: white;
+    }
+
+    .logo {
+      border: 1px black solid;
+      width: 90px;
+    }
+
+    .dropdown-remind {
+      text-align: center;
+      background-color: #ec6f3c;
+      font-size: 16px;
+      padding-top: 30px;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      position: absolute;
+      left: 50%;
+      top: -50px;
+      z-index: 1;
+      margin-left: -25px;
+      border: 1px black solid;
+      color: white;
+    }
+
+    .collapsible-body {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .collapsible-head {
+      position: relative;
+      z-index: 10;
+      display: inline-block;
+    }
+
+    .btn {
+      background-color: white;
+      border: 1px black solid;
+      color: #ec6f3c
+    }
+
+    .btn:hover {
+      background-color: #ec6f3c;
+      border: 1px black solid;
+      color: white;
+    }
+
+    nav {
+      background: white;
+      border: 1px black solid;
+    }
+
+    .nav-wrapper a{
+      color: #ec6f3c;
+    }
+
+    .active h6 {
+      font-weight: bold;
+    }
+
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-wrapper">
+      <a href="#" class="brand-logo">Five Thirty Scraper</a>
+      <ul id="nav-mobile" class="right">
+        <li><a id="scrape" href="#">Scrape!</a></li>
+      </ul>
+    </div>
+  </nav>
+  {{{ body }}}
+  <script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script>
+    $(document).ready(function(){
+
+    $.get('/538', function(data) {
+      console.log(data);
+    });
+
+    $('#scrape').on('click', function() {
+      $.get('/articles', function(data){
+        let ids = [];
+        console.log(data);
+        for (let i = 0; i < data.length; i++) {
+          ids.push(data[i]._id);
+        }
+        console.log(ids);
+        for (let r = 0; r < ids.length; r++) {
+          let url = '/search/' + ids[r];
+          $.get(url, function(id) {
+            console.log('we hit it up!');
+          });
+        }
+        location.reload();
+      });
+    });
+
+      $('.collapsible').collapsible();
+
+      $('.datum').on('click', function(){
+        let id = $(this).attr('data-id');
+        let url = '/' + id;
+      });
+
+      $(document).on('click', '.more', function(){
+        $('.top').css('max-height', '10000px');
+        $('.more').text('See Less');
+        $('.more').addClass('less');
+        $('.more').removeClass('more');
+      });
+
+      $(document).on('click', '.less', function(){
+        console.log('less!!')
+        $('.top').css('max-height', '190px');
+        $('.less').text('Read More ->');
+        $('.less').addClass('more');
+        $('.less').removeClass('less');
+      });
+
+      $('.comment').on('click', function() {
+        $('.container').empty();
+        let row = $('<div class="row">');
+        let label = $('<label for="comment">Submit your comment:</label>');
+        let textarea = $('<textarea name="comment" class="materialize-textarea"></textarea>');
+        let button = $('<a class="btn waves-effect">Submit</a>')
+        row.append(label);
+        row.append(textarea);
+        row.append(button);
+        $('.container').append(row);
+      });
+    });
+  </script>
+</body>
+</html>
