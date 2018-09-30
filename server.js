@@ -122,7 +122,7 @@ app.get('/', (req, res) => {
     })
 });
 
-app.get("/articles", function(req, res) {
+app.get("/articles", (req, res) => {
   db.Article.find({})
     .then(dbArticle => {
       res.json(dbArticle)
@@ -130,6 +130,32 @@ app.get("/articles", function(req, res) {
     .catch(err => {
       res.json(err);
     })
+});
+
+app.get('/articles/:articleID', (req, res) => {
+  db.Article.find({
+    _id: req.params.articleID
+  })
+  .populate('comment')
+  .then(dbArticle => {
+    res.json(dbArticle)
+  })
+  .catch(err => {
+    res.json(err);
+  });
+});
+
+app.post('/articles/:articleID', (req, res) => {
+  db.Comment.create(req.body)
+    .then(dbComment => {
+      return db.Article.findOneAndUpdate({ _id: req.params.articleID }, {comment: dbComment._id });
+    })
+    .then(dbArticle => {
+      res.json(dbArticle);
+    })
+    .catch(err => {
+      res.json(err);
+    });
 });
 
 app.listen(PORT, () => {

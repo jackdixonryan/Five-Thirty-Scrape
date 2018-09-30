@@ -17,8 +17,7 @@
         </div>
         <div class="collapsible-body">
           <p class="dropdown-remind"><i class="fas fa-arrow-circle-down"></i></p>
-          <a class="btn waves-effect" onclick="M.toast({html: 'Favorited!'})"><i class="far fa-star"></i></a>
-          <a class="btn waves-effect comment">comment</a>
+          <a class="btn waves-effect get" id="{{this.id}}-show-comment"><i class="far fa-star"></i>Read Comment</a>
           {{#if this.content}}
             <div class="row">
               <div class="col s6">
@@ -27,6 +26,29 @@
               </div>
               <div class="col s6">
                 <img src={{this.image}} alt="article-image" class="responsive-img"/>
+              </div>
+            </div>
+            <div class="row">
+              <form class="col s12">
+                <div class="row">
+                  <div class="input-field col s6">
+                    <input type="text" class="validate" id="{{this.id}}-title"/>
+                    <label for="{{this.id}}-title">Title</label>
+                  </div>
+                  <div class="input-field col s6">
+                    <input class="validate" type="text" id="{{this.id}}-author" class="validate"/>
+                    <label for="{{this.id}}-author">Name</label>
+                  </div>
+                  <div class="input-field col s12">
+                    <textarea class="materialize-textarea" id="{{this.id}}-comment" class="validate"></textarea>
+                    <label for="{{this.id}}-comment">Comment</label>
+                  </div>
+                  <button class="btn waves-effect submit" id={{this.id}}>Add Comment</button>
+                </div>
+              </form>
+            </div>
+            <div class="row">
+              <div class="col s12" id="{{this.id}}-comment-section">
               </div>
             </div>
             <div class="container"></div>

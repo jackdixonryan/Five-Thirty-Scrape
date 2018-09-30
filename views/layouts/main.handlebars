@@ -138,6 +138,7 @@
     });
 
       $('.collapsible').collapsible();
+      $('.modal').modal();
 
       $('.datum').on('click', function(){
         let id = $(this).attr('data-id');
@@ -159,18 +160,53 @@
         $('.less').removeClass('less');
       });
 
-      $('.comment').on('click', function() {
-        $('.container').empty();
-        let row = $('<div class="row">');
-        let label = $('<label for="comment">Submit your comment:</label>');
-        let textarea = $('<textarea name="comment" class="materialize-textarea"></textarea>');
-        let button = $('<a class="btn waves-effect">Submit</a>')
-        row.append(label);
-        row.append(textarea);
-        row.append(button);
-        $('.container').append(row);
+
+      $(document).on('click', '.uncomment', function(){
+        console.log('comments!!!')
+      });
+
+      $('.submit').on('click', function(event) {
+        event.preventDefault()
+        const id = $(this).attr('id');
+        console.log(id);
+        const author = $('#' + id + '-author').val();
+        const title = $('#' + id + '-title').val();
+        const comment = $('#' + id + '-comment').val();
+        $.ajax({
+          method: 'POST',
+          url: '/articles/' + id,
+          data: {
+            author: author,
+            body: comment,
+            title: title
+          }
+        }).then(function(data) {
+            console.log(data);
+        });
       });
     });
+
+    $('.get').on('click', function() {
+      const id = $(this).attr('id').split('-')[0];
+      $.ajax({
+        method: 'GET',
+        url: '/articles/' + id,
+      }).then(function(data){
+        const author = data[0].comment.author;
+        const title = data[0].comment.title;
+        const comment = data[0].comment.body;
+        const html = `
+        <div class="card">
+          <div class="card-content">
+            <h3>${title}</h3>
+            <h4>${author}</h4>
+            <p>${comment}</p>
+          </div>
+        </div>
+        `
+        $('#' + id + '-comment-section').append(html);
+    });
+  });
   </script>
 </body>
 </html>
